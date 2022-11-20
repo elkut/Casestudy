@@ -1,0 +1,13 @@
+﻿div.error {
+    color: black;
+    background-color: lightcoral;
+    padding: .25em .4em;
+    font-size: 65%;
+    font-weight: 700;
+    line-height: 1.5;
+    left: 160px;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    overflow: auto;
+}
