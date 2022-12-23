@@ -67,6 +67,7 @@ namespace HelpdeskViewModels
                 Email = emp.Email;
                 Id = emp.Id;
                 DepartmentId = emp.DepartmentId;
+                IsTech = emp.IsTech ?? false;
                 if (emp.StaffPicture != null)
                 {
                     StaffPicture64 = Convert.ToBase64String(emp.StaffPicture);
@@ -93,8 +94,8 @@ namespace HelpdeskViewModels
             try
             {
                 List<Employee> allEmployees = await _dao.GetAll();
-                // we need to convert Student instance to StudentViewModel because
-                // the Web Layer isn't aware of the Domain class Student
+                // we need to convert Employee instance to EmployeeViewModel because
+                // the Web Layer isn't aware of the Domain class Employee
                 foreach (Employee emp in allEmployees)
                 {
                     EmployeeViewModel empVm = new()
@@ -107,16 +108,18 @@ namespace HelpdeskViewModels
                         Id = emp.Id,
                         DepartmentId = emp.DepartmentId,
                         DepartmentName = emp.Department.DepartmentName,
-                        
-                    Timer = Convert.ToBase64String(emp.Timer!),
-                  //StaffPicture64 = Convert.ToBase64String(emp.StaffPicture)
-                    };
-                    if (StaffPicture64 != null)
+                        IsTech = emp.IsTech ?? false,
+
+                        Timer = Convert.ToBase64String(emp.Timer!),
+                      
+                   // StaffPicture64 = Convert.ToBase64String(emp.StaffPicture!),
+                };
+
+                    if (emp!.StaffPicture != null)
                     {
-                        emp.StaffPicture = Convert.FromBase64String(StaffPicture64);
+                        empVm.StaffPicture64 = Convert.ToBase64String(emp.StaffPicture);
                     }
 
-                    //emp.Timer = Convert.FromBase64String(Timer!);
                     allVms.Add(empVm);
                     
 

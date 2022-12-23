@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="itext7" Version="7.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
@@ -16,10 +17,18 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\pdfs\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\img\look-up.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\call.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

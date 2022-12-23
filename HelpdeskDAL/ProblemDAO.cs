@@ -30,6 +30,21 @@ namespace HelpdeskDAL
             return allProblems;
         }
 
+        public async Task<Problem> GetById(int id)
+        {
+            Problem? selectedProblem;
+            try
+            {
+                selectedProblem = await _repo.GetOne(prob => prob.Id == id);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem in " + GetType().Name + " " +
+                                MethodBase.GetCurrentMethod()!.Name + " " + ex.Message);
+                throw;
+            }
+            return selectedProblem!;
+        }
 
         public async Task<Problem> GetByDescription(string? description)
         {

@@ -25,16 +25,16 @@ namespace HelpdeskViewModels
             _dao = new CallDAO();
         }
 
-        public async Task GetByNotes()
+        public async Task GetByNote()
         {
             try 
             {
                 Call call = await _dao.GetByNote(Notes!);
                 EmployeeId = call.EmployeeId;
                 ProblemId = call.ProblemId;
-                EmployeeName = call.Employee.FirstName + " " + call.Employee.LastName;
+                EmployeeName = call.Employee.FirstName;
                 ProblemDescription= call.Problem.Description;
-                TechName = call.Employee.LastName;
+                TechName = call.Tech.FirstName;
                 TechId = call.TechId;
                 Id = call.Id;
                 DateTime dateOpened = call.DateOpened;
@@ -60,18 +60,18 @@ namespace HelpdeskViewModels
         {
             try
             {
-                Call call = await _dao.GetById((int)Id!);
+                Call call = await _dao.GetById(Id);
                 Id = call.Id;
+                DateOpened = call.DateOpened;
+                if (!call.OpenStatus)
+                {
+                    DateClosed = call.DateClosed;
+                }
+                TechId = call.TechId;
                 EmployeeId = call.EmployeeId;
                 ProblemId = call.ProblemId;
-                EmployeeName = call.Employee.FirstName + " " + call.Employee.LastName;
-                ProblemDescription = call.Problem.Description;
-                TechName = call.Employee.LastName;
-                TechId = call.TechId;
-                Id = call.Id;
-                DateTime dateOpened = call.DateOpened;
-                DateTime? dateClosed = call.DateClosed;
                 OpenStatus = call.OpenStatus;
+                Notes = call.Notes;
                 Timer = Convert.ToBase64String(call.Timer!);
             }
             catch (NullReferenceException nex)
@@ -89,32 +89,33 @@ namespace HelpdeskViewModels
 
         public async Task<List<CallViewModel>> GetAll()
         {
-            List<CallViewModel> allVms = new();
+            List<CallViewModel> viewModels = new();
             try
             {
                 List<Call> allCalls = await _dao.GetAll();
-                // we need to convert Student instance to StudentViewModel because
-                // the Web Layer isn't aware of the Domain class Student
-                foreach (Call call in allCalls)
-                {
-                    CallViewModel callVm = new()
+                ProblemDAO pdao = new();
+                EmployeeDAO edao = new();
+
+                    foreach (Call c in allCalls)
                     {
-                        Id = call.Id,
-                        EmployeeId = call.EmployeeId,
-                        ProblemId = call.ProblemId,
-                        EmployeeName = call.Employee.FirstName + " " + call.Employee.LastName,
-                        ProblemDescription = call.Problem.Description,
-                        TechName = call.Tech.FirstName,
-                        TechId = call.TechId,
-                        DateOpened = call.DateOpened,
-                        DateClosed = call.DateClosed,
-                        OpenStatus = call.OpenStatus,
-
-                    Timer = Convert.ToBase64String(call.Timer!),
-                    };
-
-                    allVms.Add(callVm);
-                }
+                        CallViewModel viewModel = new();
+                        viewModel.Id = c.Id;
+                        Problem p = await pdao.GetById(c.ProblemId);
+                        viewModel.ProblemDescription = p.Description;
+                        Employee e = await edao.GetById(c.EmployeeId);
+                        viewModel.EmployeeName = e.LastName;
+                        Employee t = await edao.GetById(c.TechId);
+                        viewModel.OpenStatus = c.OpenStatus;
+                        viewModel.TechName = t.LastName;
+                        viewModel.DateClosed = c.DateClosed;
+                        viewModel.DateOpened = c.DateOpened;
+                        viewModel.Timer = Convert.ToBase64String(c.Timer!);
+                        viewModel.EmployeeId = c.EmployeeId;
+                        viewModel.ProblemId = c.ProblemId;
+                        viewModel.TechId = c.TechId;
+                        viewModel.Notes = c.Notes;
+                        viewModels.Add(viewModel);
+                    }
             }
             catch (Exception ex)
             {
@@ -122,23 +123,22 @@ namespace HelpdeskViewModels
                 MethodBase.GetCurrentMethod()!.Name + " " + ex.Message);
                 throw;
             }
-            return allVms;
+            return viewModels;
         }
 
         public async Task Add()
         {
-            Id = -1;
+            //Id = -1;
             try
             {
                 Call call = new()
-                {
+                { 
                     EmployeeId = EmployeeId,
                    ProblemId = ProblemId,
                    TechId =TechId,
-                   Notes = Notes,
+                   Notes = Notes!,
                    DateOpened = DateOpened,
-                   DateClosed = DateClosed,
-                   OpenStatus = OpenStatus,
+                   OpenStatus = true,
 
                 };
                 Id = await _dao.Add(call);
@@ -161,7 +161,7 @@ namespace HelpdeskViewModels
                     EmployeeId = EmployeeId,
                     ProblemId = ProblemId,
                     TechId = TechId,
-                    Notes = Notes,
+                    Notes = Notes!,
                     DateOpened = DateOpened,
                     DateClosed = DateClosed,
                     OpenStatus = OpenStatus,
@@ -184,10 +184,12 @@ namespace HelpdeskViewModels
 
         public async Task<int> Delete()
         {
+            long rowsDeleted;
             try
             {
                 // dao will return # of rows deleted
-                return await _dao.Delete(Id);
+                // return await _dao.Delete(Id);
+                rowsDeleted = await _dao.Delete(Id);
             }
             catch (Exception ex)
             {
@@ -195,6 +197,8 @@ namespace HelpdeskViewModels
                                 MethodBase.GetCurrentMethod()!.Name + " " + ex.Message);
                 throw;
             }
+
+            return Convert.ToInt16(rowsDeleted);
         }
     }
 }

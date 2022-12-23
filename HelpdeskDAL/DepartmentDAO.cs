@@ -1,10 +1,9 @@
-﻿using HelpdeskDAL;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Reflection;
 
 
-namespace ExercisesDAL
+namespace HelpdeskDAL
 {
     public class DepartmentDAO
     {

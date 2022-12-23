@@ -113,7 +113,7 @@ namespace CasestudyTests
             pvm.Description = "Memory Upgrade";
             await pvm.GetByDescription();
             cvm.ProblemId = (int)pvm.Id;
-            cvm.Notes = "Bigshot has bad RAM, Burner to fix it";
+            cvm.Notes = "Bigshot has bad RAM, Alkut to fix it";
             await cvm.Add();
             output.WriteLine("New Call Generated - Id = " + cvm.Id);
             int id = cvm.Id; // need id for delete later

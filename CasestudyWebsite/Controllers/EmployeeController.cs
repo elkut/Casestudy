@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Reflection;
-namespace ExercisesWebsite.Controllers
+namespace CasestudyWebsite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

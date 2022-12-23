@@ -18,8 +18,8 @@ namespace CasestudyTests
             CallDAO cdao = new();
             EmployeeDAO edao = new();
             ProblemDAO pdao = new();
-            Employee bigshot = await edao.GetByEmail("bs@abc.com");
-            Employee burner = await edao.GetByEmail("bb@abc.com");
+            Employee bigshot = await edao.GetByEmail("Alkut@abc.com");
+            Employee burner = await edao.GetByEmail("Alkut@abc.com");
             Problem badDrive = await pdao.GetByDescription("Hard Drive Failure");
             Call call = new()
             {
@@ -29,7 +29,7 @@ namespace CasestudyTests
                 EmployeeId = bigshot.Id,
                 TechId = burner.Id,
                 ProblemId = badDrive.Id,
-                Notes = "Big shot's drive is shot, Burner to fix it"
+                Notes = "Big shot's drive is shot, Alkut to fix it"
             };
             int newCallId = await cdao.Add(call);
             output.WriteLine("New Call Generated - Id = " + newCallId);

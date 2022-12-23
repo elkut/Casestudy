@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Case 1 - Employee</title>
+    <title>Call</title>
     <meta charset="utf-8" />
     <link href="lib/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -18,13 +18,13 @@
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/home.html">Home</a>
+                    <a class="nav-link " href="/home.html">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/employee.html" data-bs-toggle="modal" data-bs-target="#myModal">Employees</a>
+                    <a class="nav-link" href="/employee.html">Employees</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="/call.html">Call</a>
+                    <a class="nav-link active" href="/call.html" data-bs-toggle="modal" data-bs-target="#myModal">Call</a>
                 </li>
 	            <li class="nav-item">
 		            <a class="nav-link active" href="/report.html">Report</a>
@@ -35,15 +35,15 @@
 	        </form>
         </div>
     </nav>
-    <div class="justify-content-center align-items-center row m-1">
-        <div class="col-12 text-center p-3"><h2>Employees</h2></div>
-        <p><img src="img/look-up.png" style="display: block; margin: 0 auto; width:100px; height:100px;" /></p>
+    <div class="justify-content-center align-items-center row m-1" style="background-color:cadetblue;">
+        <div class="col-12 text-center p-3"><h2>Calls</h2></div>
+        <p><img alt="employee" src="img/look-up.png" style="display: block; margin: 0 auto; width:100px; height:100px;" /></p>
         <div class="justify-content-center align-items-center row m-2 ml-3"
-             style="overflow:hidden;overflow-y:scroll;height:70vh;">
-            <div class="list-group col-10" id="employeeList"></div>
+             style="overflow: hidden; overflow-y: scroll; height: 70vh; background-color: cadetblue;">
+            <div class="list-group col-10" id="callList"></div>
         </div>
     </div>
-    <form id="EmployeeModalForm" name="EmployeeModalForm" method="post" action="">
+    <form id="CallModalForm" name="CallModalForm" method="post" action="">
         <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
              aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -55,69 +55,55 @@
                         <div class="mx-4 my-4">
                             <div class="card" >
                                 <div class="card-header text-center">
-                                    <p><img src="img/look-up.png" style="display: block; margin: 0 auto; width:100px; height:100px;"></p>
-                                    Employee Information
+                                    <p><img alt="employee" src="img/look-up.png" style="display: block; margin: 0 auto; width:100px; height:100px;"></p>
+                                    Call Information
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-4">Title:</div>
-                                        <div class="col-8">
-                                            <input type="text" placeholder="enter title" id="TextBoxTitle" name="TextBoxTitle"
-                                                   class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="valid-feedback">
-                                        Looks good!
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4">First:</div>
-                                        <div class="col-8">
-                                            <input type="text" placeholder="enter first name" id="TextBoxFirstname" name="TextBoxFirstname"
-                                                   class="form-control" />
+                                        <div class="col-4">Problem:</div>
+                                        <div class="col-7">
+                                            <select id="ddlProblems" name="ddlProblems" class="form-control"></select>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-4">Surname:</div>
-                                        <div class="col-8">
-                                            <input type="text" placeholder="enter last name" id="TextBoxLastname" name="TextBoxLastname"
-                                                   class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4">Phone#:</div>
-                                        <div class="col-8">
-                                            <input type="text" placeholder="enter phone#" id="TextBoxPhone" name="TextBoxPhone"
-                                                   class="form-control" />
+                                        <div class="col-4">Employee:</div>
+                                        <div class="col-7">
+                                            <select id="ddlEmployees" name="ddlEmployees" class="form-control"></select>
                                         </div>
                                     </div>
 	                                <div class="row">
-		                                <div class="col-4">Email:</div>
-		                                <div class="col-8">
-			                                <input type="text" placeholder="enter email address" id="TextBoxEmail" name="TextBoxEmail"
-			                                       class="form-control" />
+		                                <div class="col-4">Technician:</div>
+		                                <div class="col-7">
+			                                <select id="ddlTechnicians" name="ddlTechnicians" class="form-control"></select>
 		                                </div>
-	                                </div>
-
-	                                <div class="row">
-		                                <div class="col-4">Department:</div>
-		                                <div class="col-8"><select id="ddlDepartments" name="ddlDepartments" class="form-control" ></select></div>
-	                                </div>
-
-	                                <div class="row mt-3">
-		                                <div class="col-4">Picture:</div>
-		                                <div class="col-8" id="ImageHolder"></div>
-	                                </div>
-
+                                    </div>
+                                    <div class="row" id="DateOpenedVal">
+                                        <div class="col-4">Date Opened:</div>
+	                                    <div class="col-7" id="labelDateOpened"></div>
+                                    </div>
+                                    <div class="row" id="DateClosed">
+	                                    <div class="col-4">Date Closed:</div>
+                                        <div class="col-7" id="labelDateClosed" name="labelDateClosed" >
+                                        </div>
+                                    </div>
+                                    <div class="row" id="CloseCall">
+                                        <div class="col-4">Close Call:</div>
+                                        <div class="col-7" >
+	                                        <input type="checkbox" id="checkBoxClose" name="checkBoxClose">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Notes:</div>
+                                        <div class="col-7">
+	                                        <textarea id="TextBoxNote" name="TextBoxNote"
+                                                   class="form-control" ></textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
 	                    <div class="card-footer text-center">
-
-		                    <div class="row border m-3 p-3">
-			                    <label for="file" class="mb-2">Choose Different Picture?</label>
-			                    <input type="file" id="uploader" class="text-center"/>
-		                    </div>
 
 		                    <input type="button" class="btn btn-secondary mt-3" value="update" id="actionbutton"/>
 		                    <input type="button" class="btn btn-secondary mt-3" value="delete" id="deleteprompt"/>
@@ -139,7 +125,7 @@
     <script src="lib/js/jquery.min.js"></script>
     <script src="lib/js/jquery.validate.min.js"></script>
     <script src="lib/js/bootstrap.min.js"></script>
-    <script src="js/employee.js"></script>
+    <script src="js/call.js"></script>
    
 </body>
 </html>

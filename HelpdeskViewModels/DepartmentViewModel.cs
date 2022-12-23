@@ -1,9 +1,8 @@
-﻿using ExercisesDAL;
-using HelpdeskDAL;
+﻿using HelpdeskDAL;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace ExercisesViewModels
+namespace HelpdeskViewModels
 {
     public class DepartmentViewModel
     {

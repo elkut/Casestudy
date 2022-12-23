@@ -1,10 +1,9 @@
-﻿using ExercisesViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Reflection;
+using HelpdeskViewModels;
 
-namespace ExercisesWebsite.Controllers
+namespace CasestudyWebsite.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

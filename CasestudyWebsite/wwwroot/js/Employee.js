@@ -49,11 +49,11 @@
                 $("#TextBoxPhone").val(employee.phoneno);
                 $("#TextBoxEmail").val(employee.email);
                 loadDepartmentDDL(employee.departmentId);
-                $("#ImageHolder").html(`<img height="120" width="110" src="data:img/png;base64, ${data.staffPicture64}" />`);
+                $("#ImageHolder").html(`<img height="120" width="110" src="data:img/png;base64, ${employee.staffPicture64}" />`);
                 sessionStorage.setItem("id", employee.id);
                 sessionStorage.setItem("departmentId", employee.departmentId);
                 sessionStorage.setItem("timer", employee.timer);
-                sessionStorage.setItem("picture", data.staffPicture64);
+                sessionStorage.setItem("picture", employee.staffPicture64);
                 $("#modalstatus").text("update data");
                 $("#myModal").modal("toggle");
                 $("#myModalLabel").text("Update");
@@ -72,6 +72,7 @@
         $('#deleteprompt').hide();
         clearModalFields();
     }; // setupForAdd
+
     const clearModalFields = () => {
         $("#TextBoxTitle").val("");
         $("#TextBoxFirstname").val("");
@@ -87,6 +88,7 @@
         let validator = $("#EmployeeModalForm").validate();
         validator.resetForm();
     }; // clearModalFields
+
     const add = async () => {
         try {
             emp = new Object();
@@ -99,10 +101,10 @@
             emp.departmentId = parseInt($("#ddlDepartments").val());
             emp.id = -1;
             emp.timer = null;
-           emp.staffpicture64 = null;
-            //sessionStorage.getItem("picture")
-            //    ? emp.staffPicture64 = sessionStorage.getItem("picture")
-            //    : emp.staffPicture64 = null;
+          /* emp.staffPicture64 = null;*/
+            sessionStorage.getItem("picture")
+                ? emp.staffPicture64 = sessionStorage.getItem("picture")
+                : emp.staffPicture64 = null;
             // send the employee info to the server asynchronously using POST
             let response = await fetch("api/employee", {
                 method: "POST",
@@ -145,6 +147,7 @@
             $('#status').text(error.message);
         }
     }; // delete
+
     const update = async () => {
         try {
             // set up a new client side instance of Employee
@@ -184,8 +187,6 @@
             $("#status").text(error.message);
         } // try/catch
         $("#myModal").modal("toggle");
-
-       
     } // update
 
     $("#srch").keyup(() => {
@@ -211,6 +212,7 @@
             return false; // ignore if they clicked on heading or status
         }
     }); // employeeList click
+
     $('#deleteprompt').click((e) => {
         $('#deletealert').show();
     });

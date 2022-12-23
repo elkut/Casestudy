@@ -1,4 +1,5 @@
-﻿using HelpdeskDAL;
+﻿
+using HelpdeskDAL;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -11,6 +12,7 @@ namespace HelpdeskViewModels
         public string? Description { get; set; }
         public int? Id { get; set; }
 
+     
         public ProblemViewModel()
         {
             _dao = new ProblemDAO();
@@ -23,7 +25,7 @@ namespace HelpdeskViewModels
                 Problem pro = await _dao.GetByDescription(Description);
                 Description = pro.Description;
                 Id = pro.Id;
-               
+             
             }
             catch (NullReferenceException nex)
             {
@@ -46,14 +48,14 @@ namespace HelpdeskViewModels
             try
             {
                 List<Problem> allProblems = await _dao.GetAll();
-                // we need to convert Student instance to StudentViewModel because
-                // the Web Layer isn't aware of the Domain class Student
+             
                 foreach (Problem pro in allProblems)
                 {
                     ProblemViewModel proVm = new()
                     {
                         Id = pro.Id,
-                        Description = pro.Description
+                        Description = pro.Description,
+                     
                     };
                   
                     allVms.Add(proVm);

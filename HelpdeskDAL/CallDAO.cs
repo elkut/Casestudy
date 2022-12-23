@@ -32,9 +32,10 @@ namespace HelpdeskDAL
         {
             try
             {
-                HelpdeskContext _db = new();
-                await _db.Calls.AddAsync(newCall);
-                await _db.SaveChangesAsync();
+                //HelpdeskContext _db = new();
+                //await _db.Calls.AddAsync(newCall);
+                // await _db.SaveChangesAsync();
+                newCall = await _repo.Add(newCall);
             }
             catch (Exception ex)
             {
